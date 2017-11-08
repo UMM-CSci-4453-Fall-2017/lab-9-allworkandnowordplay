@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>Cash Register</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
+    <script src="click.js"></script>
+</head>
+<body ng-app="register" ng-controller="registerCtrl">
+<div class="container-fluid" ng-show="authenticated">
+    <h1>Cash Register (with buttons)</h1>
+    <!-- displays buttons -->
+    <div id="buttons">
+       <div ng-repeat="button in buttons">
+         <div style="position:absolute;left:{{button.left}}px;top:{{button.top}}px"><button id="button_{{button.buttonID}}" ng-click="buttonClick($event,'button.buttonID');" >{{button.label}}</button></div>
+       </div>
+       <div style="position:fixed;height:50px;bottom:0px;left:0px;right:0px;margin-bottom:0px"} ng-show="errorMessage != ''">
+          <div class="col-sm-12">
+           <h3 class="text-danger">{{errorMessage}}</h3>
+         </div>
+       </div>
+     </div>
+</div>
+<!-- displays transaction information -->
+<div class="container pull-right" ng-show="authenticated">
+      <h1>Items</h1>
+  <div id="list">
+    <!-- displays transaction table -->
+    <table class="table table-striped">
+      <tbody id="tableBody">
+        <!-- loops through all transaction lines and displays them -->
+        <tr id="line_{{line.lineID}}" class="listLine" ng-repeat="line in lines" ng-click="lineClick($event,'line.lineID');">
+          <td>{{line.label}}</td> <!-- displays item label -->
+          <td>{{line.quantity}}</td> <!-- displays item quantity -->
+          <td>${{line.displayPrice}}</td> <!-- displays item price -->
+        </tr>
+      </tbody>
+      <tbody id="tableFooter">
+        <tr>
+          <!-- displays total price row of transaction table -->
+          <td>Total:</td>
+          <td></td>
+          <!-- displays total price of transaction -->
+          <td>$<span ng-bind="totalPrice"></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="container pull-right" ng-hide="authenticated">
+  <form>
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="username" class="form-control" id="username">
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="pwd">
+    </div>
+    <button type="submit" class="btn btn-success" ng-click="loginClick()">Submit</button>
+  </form>
+</div>
+</body>
+</html>
