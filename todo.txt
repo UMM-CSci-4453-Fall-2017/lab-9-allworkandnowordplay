@@ -1,4 +1,3 @@
-- make sure testy pete has priveleges
 - think about trigger
 - record time stamp of a button
 - void REST handler
