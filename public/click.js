@@ -34,8 +34,8 @@ function RegisterCtrl($scope,registerApi){
     console.log("clicked it");
      $scope.errorMessage='';
      registerApi.clickLogin(username.value, pwd.value)
-        .success(function(){
-          $scope.authenticated = true;
+        .success(function(authenticatedValue){
+          $scope.authenticated = authenticatedValue;
         })
         .error(function(){$scope.errorMessage="Unable to click";});
    };
@@ -157,7 +157,7 @@ function registerApi($http,apiUrl){
     },
     clickLogin: function(username,password) {
       console.log("in here");
-      var url = apiUrl + '/login';
+      var url = apiUrl + '/login?username=' + username + '&password=' + password;
       return $http.get(url);
     }
  };

@@ -69,14 +69,14 @@ app.get("/list",function(req,res){
 
 // verifies login with information from client
 app.get("/login",function(req,res){
-  var htmlID = req.param('id');
-  var sql = "SHOW TABLES";
-  console.log("You made it!");
+  var username = req.param('username');
+  var password = req.param('password');
+  var sql = 'SELECT username,password FROM mitc0417.users WHERE username = "' + username + '" AND password = "' + password + '";';
 
   connection.query(sql,(function(res){return function(err,rows,fields){
      if(err){console.log("We have an insertion error:");
              console.log(err);}
-     res.send(err); // Let the upstream guy know how it went
+     res.send(rows.length > 0); // Let the upstream guy know how it went
   }})(res));
 });
 
