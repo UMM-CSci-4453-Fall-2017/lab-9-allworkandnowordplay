@@ -5,8 +5,9 @@ angular.module('register',[])
 
 function RegisterCtrl($scope,registerApi){
   // Authentication
-  $scope.authenticated = false;
+  $scope.authenticated = true;
   $scope.loginClick=loginClick;
+  $scope.logoutClick=logoutClick;
 
   // Button intialization
    $scope.buttons=[]; //Initially all was still
@@ -31,13 +32,16 @@ function RegisterCtrl($scope,registerApi){
    }
    // Authentication functions
    function loginClick(){
-    console.log("clicked it");
      $scope.errorMessage='';
      registerApi.clickLogin(username.value, pwd.value)
         .success(function(authenticatedValue){
           $scope.authenticated = authenticatedValue;
         })
         .error(function(){$scope.errorMessage="Unable to click";});
+   };
+
+   function logoutClick() {
+     $scope.authenticated = false;
    };
 
 
@@ -133,7 +137,6 @@ function RegisterCtrl($scope,registerApi){
         .error(function(){$scope.errorMessage="Unable to click";});
   }
   refreshLines();  //make sure the lines are loaded
-
 }
 
 // api that holds functions for retrieving button and list information

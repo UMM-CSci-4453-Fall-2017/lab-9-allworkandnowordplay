@@ -1,5 +1,4 @@
 - make sure testy pete has priveleges
-- add login/logout function (till buttons not usable when logged out)
 - think about trigger
 - record time stamp of a button
 - void REST handler
@@ -8,3 +7,4 @@
 - create transactionSummary view
 - receipt popup
 - user manual
+- change authentication to false
