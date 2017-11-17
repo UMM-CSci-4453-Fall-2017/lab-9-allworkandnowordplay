@@ -27,7 +27,6 @@ app.get("/buttons",function(req,res){
 app.get("/click",function(req,res){
   var htmlID = req.param('id');
 
-  console.log("htmlID " + htmlID.substring(0,1))
   var id;
   var sql;
   if(htmlID.substring(0,1) == ("l")) // this is if it's a line being clicked
@@ -79,6 +78,19 @@ app.get("/login",function(req,res){
              console.log(err);}
 
     res.send(rows); // Let the upstream guy know how it went
+  }})(res));
+});
+
+// voids transaction
+// removes all rows from transaction_table
+app.get("/void",function(req,res){
+  // truncates the transaction_table rows
+  var sql = 'TRUNCATE TABLE mitc0417.transaction_table;';
+  connection.query(sql,(function(res){return function(err,rows,fields){
+     if(err){console.log("We have an error:");
+             console.log(err);}
+
+     res.send(err);
   }})(res));
 });
 

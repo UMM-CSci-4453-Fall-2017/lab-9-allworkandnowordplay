@@ -11,6 +11,9 @@ function RegisterCtrl($scope,registerApi){
   $scope.logoutClick=logoutClick;
   $scope.userID = 1;
 
+  // Void
+  $scope.voidClick=voidClick;
+
   // Button intialization
    $scope.buttons=[]; //Initially all was still
    $scope.errorMessage='';
@@ -47,6 +50,16 @@ function RegisterCtrl($scope,registerApi){
      $scope.authenticated = false;
    };
 
+   // Void functions
+   function voidClick(){
+     $scope.errorMessage='';
+     registerApi.clickVoid()
+        .success(function(){
+          totalPrice(); // calculates and formats price for UI
+          refreshLines(); // gets lines from api and updates $scope.lines
+        })
+        .error(function(){$scope.errorMessage="Unable to click";});
+   };
 
    // Button functions
 
@@ -85,7 +98,6 @@ function RegisterCtrl($scope,registerApi){
 // calls the database when buttons are clicked
   function buttonClick($event){
      $scope.errorMessage='';
-     console.log("userID " + $scope.userID);
      registerApi.clickButton($event.target.id,$scope.userID)
         .success(function(){
           totalPrice(); // calculates and formats price for UI
@@ -164,6 +176,10 @@ function registerApi($http,apiUrl){
     },
     clickLogin: function(username,password) {
       var url = apiUrl + '/login?username=' + username + '&password=' + password;
+      return $http.get(url);
+    },
+    clickVoid: function() {
+      var url = apiUrl + '/void';
       return $http.get(url);
     }
  };
