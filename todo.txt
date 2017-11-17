@@ -1,5 +1,4 @@
 - think about trigger
-- record time stamp of a button
 - void REST handler
 - sale REST handler
 - implement clicking sale (copy till_items to archive table)

@@ -26,6 +26,7 @@ app.get("/buttons",function(req,res){
 // handles click information taken in from client
 app.get("/click",function(req,res){
   var htmlID = req.param('id');
+
   console.log("htmlID " + htmlID.substring(0,1))
   var id;
   var sql;
@@ -38,11 +39,11 @@ app.get("/click",function(req,res){
   }
   else { // this is if it's a button being clicked
     id = htmlID.substring(7,htmlID.length);
-
+    var userID = req.param('userID');
     // upsert to transaction table when button is clicked
     // if item is in the table, it increments quantity
     // if item is not in table, it adds it with quanitity = 1
-    sql = 'INSERT INTO mitc0417.transaction_table (buttonID, quantity) VALUES (' + id + ', 1) ON DUPLICATE KEY UPDATE quantity = quantity + 1';
+    var sql = 'INSERT INTO mitc0417.transaction_table (buttonID, quantity, startTime) VALUES (' + id + ', 1,CURRENT_TIMESTAMP()) ON DUPLICATE KEY UPDATE quantity = quantity + 1;';
   }
 
   connection.query(sql,(function(res){return function(err,rows,fields){
@@ -71,12 +72,13 @@ app.get("/list",function(req,res){
 app.get("/login",function(req,res){
   var username = req.param('username');
   var password = req.param('password');
-  var sql = 'SELECT username,password FROM mitc0417.users WHERE username = "' + username + '" AND password = "' + password + '";';
+  var sql = 'SELECT userID,username,password FROM mitc0417.users WHERE username = "' + username + '" AND password = "' + password + '";';
 
   connection.query(sql,(function(res){return function(err,rows,fields){
      if(err){console.log("We have an insertion error:");
              console.log(err);}
-     res.send(rows.length > 0); // Let the upstream guy know how it went
+
+    res.send(rows); // Let the upstream guy know how it went
   }})(res));
 });
 

@@ -4,10 +4,12 @@ angular.module('register',[])
   .constant('apiUrl','http://localhost:1337'); // CHANGED for the lab 2017!
 
 function RegisterCtrl($scope,registerApi){
+
   // Authentication
   $scope.authenticated = true;
   $scope.loginClick=loginClick;
   $scope.logoutClick=logoutClick;
+  $scope.userID = 1;
 
   // Button intialization
    $scope.buttons=[]; //Initially all was still
@@ -34,8 +36,9 @@ function RegisterCtrl($scope,registerApi){
    function loginClick(){
      $scope.errorMessage='';
      registerApi.clickLogin(username.value, pwd.value)
-        .success(function(authenticatedValue){
-          $scope.authenticated = authenticatedValue;
+        .success(function(userInfo){
+          $scope.userID = userInfo[0].userID;
+          $scope.authenticated = $scope.userID != -1;
         })
         .error(function(){$scope.errorMessage="Unable to click";});
    };
@@ -82,10 +85,12 @@ function RegisterCtrl($scope,registerApi){
 // calls the database when buttons are clicked
   function buttonClick($event){
      $scope.errorMessage='';
-     registerApi.clickButton($event.target.id)
+     console.log("userID " + $scope.userID);
+     registerApi.clickButton($event.target.id,$scope.userID)
         .success(function(){
           totalPrice(); // calculates and formats price for UI
           refreshLines(); // gets lines from api and updates $scope.lines
+
         })
         .error(function(){$scope.errorMessage="Unable to click";});
   }
@@ -99,7 +104,6 @@ function RegisterCtrl($scope,registerApi){
     }
 
     $scope.totalPrice =  $scope.totalPrice + "";
-    console.log("clicked it");
     if($scope.totalPrice.substring($scope.totalPrice.length - 3, $scope.totalPrice.length - 2) != ".") {
 
       if($scope.totalPrice.substring($scope.totalPrice.length - 2, $scope.totalPrice.length - 1) == ".") { // if there is one decimal place (ex: 1.5)
@@ -146,8 +150,8 @@ function registerApi($http,apiUrl){
       var url = apiUrl + '/buttons';
       return $http.get(url);
     },
-    clickButton: function(id){ // sends button click information to database
-      var url = apiUrl+'/click?id='+id;
+    clickButton: function(id,userID){ // sends button click information to database
+      var url = apiUrl+'/click?id='+id+'&userID=' + userID;
       return $http.get(url);
     },
     getLines: function(){ // retreives list information from database
@@ -159,7 +163,6 @@ function registerApi($http,apiUrl){
       return $http.get(url);
     },
     clickLogin: function(username,password) {
-      console.log("in here");
       var url = apiUrl + '/login?username=' + username + '&password=' + password;
       return $http.get(url);
     }
