@@ -1,5 +1,4 @@
 - think about trigger
-- create transactionSummary view
 - receipt popup
 - user manual
 - change authentication to false
