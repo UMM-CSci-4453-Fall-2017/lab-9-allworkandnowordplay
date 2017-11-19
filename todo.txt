@@ -1,3 +1,2 @@
 - think about trigger
-- user manual
-- change authentication to false
+- ask about deals in till_items table

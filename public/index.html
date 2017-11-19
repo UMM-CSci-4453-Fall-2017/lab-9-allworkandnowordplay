@@ -12,7 +12,124 @@
 </head>
 <body ng-app="register" ng-controller="registerCtrl">
   <div class="authen pull-right">
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#userManual">User Manual</button>
     <button type="button" class="btn btn-warning" ng-click="logoutClick()" ng-show="authenticated">Log Out</button>
+  <!-- Modal -->
+  <div class="modal fade" id="userManual" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">User Manual</h4>
+        </div>
+        <div class="modal-body">
+          <div ng-show="manual(0)">
+            <h4>Table of Contents</h4>
+              <h5><a ng-click="changeIndex(1)">Logging In</a></h5>
+              <h5><a ng-click="changeIndex(2)">Logging Out</a></h5>
+              <h5><a ng-click="changeIndex(3)">Adding Items to Transaction</a></h5>
+              <h5><a ng-click="changeIndex(4)">Removing Items from Transaction</a></h5>
+              <h5><a ng-click="changeIndex(5)">Finalizing Sale</a></h5>
+              <h5><a ng-click="changeIndex(6)">Voiding Transaction</a></h5>
+          </div>
+          <div ng-show="manual(1)">
+            <h4>Logging In</h4>
+            <ol>
+              <li>Enter a valid username in the "Username:" text field. Usernames are not case-sensitive.</li>
+              <li>Enter a valid password in the "Password:" text field. Passwords are not case-sensitive.</li>
+              <li>Click Submit.</li>
+            </ol>
+            <img class="img-responsive" src="LoginScreenshot.png">
+            <h5><a ng-click="changeIndex(0)">Back to Table of Contents</a></h5>
+          </div>
+          <div ng-show="manual(2)">
+            <h4>Logging Out</h4>
+            <ol>
+              <li>To log out, you can either:
+                <ul>
+                  <li>Click the orange "Log Out" button at the top right corner of the screen.</li>
+                  <li>Refresh the page.</li>
+                </ul>
+              </li>
+              <li>You will be taken back to the log in view.</li>
+            </ol>
+            <h5><a ng-click="changeIndex(0)">Back to Table of Contents</a></h5>
+          </div>
+          <div ng-show="manual(3)">
+            <h4>Adding Items to Transaction</h4>
+            <ol>
+              <li>Click on button corresponding to item being added to the transaction.
+                <img class="img-responsive" src="AddScreenshot1.png">
+                <ul>
+                  <li>Note: Each click adds one of the item to the transaction. (Ex: If three hamburgers need to be added to the transaction, the "Hamburger" button must be clicked three times.)</li>
+                </ul>
+              </li>
+              <li>The list will update to reflect the current transaction. There are two potential cases:
+                <img class="img-responsive" src="AddScreenshot5.png">
+                <ul>
+                  <li>If the item is already in the transaction, it's quantity will increase by one, and the price will update. (The price at each line of the transaction is the price of one unit multiplied by the quantity.) </li>
+
+                  <img class="img-responsive" src="AddScreenshot2.png">
+                  <li>If the item is not already present in the transaction, the item will appear in the list with a quantity of one, and it's price will be the price of one unit.</li>
+                  <img class="img-responsive" src="AddScreenshot3.png">
+                  <img class="img-responsive" src="AddScreenshot4.png">
+                </ul>
+               In either case, the transaction's total price will update.
+              </li>
+            </ol>
+            <h5><a ng-click="changeIndex(0)">Back to Table of Contents</a></h5>
+          </div>
+          <div ng-show="manual(4)">
+            <h4>Removing Items from Transaction</h4>
+            If you wish to remove items from the transaction you can either:
+            <ul>
+              <li>Hover over the item so that it is highlighted in red. Click that item to remove it.</li>
+              <img class="img-responsive" src="RemoveScreenshot1.png">
+              <img class="img-responsive" src="AddScreenshot5.png">
+              <li>Clicking "Void" will remove all items from transaction. (See <a ng-click="changeIndex(6)">Void</a>).</li>
+            </ul>
+            <h5><a ng-click="changeIndex(0)">Back to Table of Contents</a></h5>
+          </div>
+          <div ng-show="manual(5)">
+            <h4>Sale</h4>
+            <ol>
+              <li>When transaction is complete, click the "Sale" button.</li>
+              <img class="img-responsive" src="SaleScreenshot1.png">
+              <li>Receipt modal will appear.</li>
+              <li>Review the transaction.
+                <ul>
+                  <li>Your cashier ID should appear after the label, "CashierID".</li>
+                  <li>Each item should be one line of the receipt. The item's name will appear under the "ITEM" column, its quantity will appear under the "QTY" column, and the total price for the item will appear under "PRICE".</li>
+                  <li>The total will be located at the end of the receipt in bolded text.</li>
+                </ul>
+              </li>
+              <img class="img-responsive" src="SaleScreenshot2.png">
+              <li>If receipt is correct, click "Confirm." Transaction will be cleared, and record of the transaction will be recorded. The modal will close.</li>
+              <li>If changes need to be made to the transaction, click "Cancel", and the modal will close. The transaction will not be recorded, and the "Items" table will be preserved.</li>
+            </ol>
+            <h5><a ng-click="changeIndex(0)">Back to Table of Contents</a></h5>
+          </div>
+          <div ng-show="manual(6)">
+            <h4>Sale</h4>
+            <ol>
+              <li>If you wish to void the current transaction, click the "Void" button.</li>
+              <img class="img-responsive" src="VoidScreenshot1.png">
+              <li>This button will void the current transaction and clear the "Items" table.</li>
+              <img class="img-responsive" src="VoidScreenshot2.png">
+              <li><strong>There is no undoing a voided transaction.</strong></li>
+            </ol>
+            <h5><a ng-click="changeIndex(0)">Back to Table of Contents</a></h5>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
   </div>
   <div class="container-fluid" ng-show="authenticated">
       <h1>Cash Register (with buttons)</h1>

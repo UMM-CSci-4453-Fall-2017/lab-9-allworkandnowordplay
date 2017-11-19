@@ -32,12 +32,31 @@ function RegisterCtrl($scope,registerApi){
    $scope.lineClick=lineClick;
    $scope.total = 0;
 
+   // Manual
+   $scope.manualIndex = 0;
+   $scope.manual=manual;
+   $scope.changeIndex=changeIndex;
+
 // Universal
    var loading = false;
 
    function isLoading(){
     return loading;
    }
+
+   function manual(index)
+   {
+     if(index == $scope.manualIndex) {
+       return true;
+     }
+     return false;
+   }
+
+   function changeIndex(index)
+   {
+     $scope.manualIndex = index;
+   }
+
    // Authentication functions
    function loginClick(){
      $scope.errorMessage='';
