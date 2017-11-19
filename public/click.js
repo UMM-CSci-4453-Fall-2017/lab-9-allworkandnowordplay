@@ -6,10 +6,10 @@ angular.module('register',[])
 function RegisterCtrl($scope,registerApi){
 
   // Authentication
-  $scope.authenticated = true;
+  $scope.authenticated = false;
   $scope.loginClick=loginClick;
   $scope.logoutClick=logoutClick;
-  $scope.userID = 1;
+  $scope.userID;
 
   // Void
   $scope.voidClick=voidClick;
@@ -56,6 +56,7 @@ function RegisterCtrl($scope,registerApi){
    // Void functions
    function voidClick(){
      $scope.errorMessage='';
+
      registerApi.clickVoid()
         .success(function(){
           totalPrice(); // calculates and formats price for UI
@@ -67,6 +68,7 @@ function RegisterCtrl($scope,registerApi){
    // sale functions
    function saleClick(){
      $scope.errorMessage='';
+
      registerApi.clickSale($scope.userID, $scope.totalPrice)
         .success(function(){
           voidClick(); // call void to truncate the table and update items list

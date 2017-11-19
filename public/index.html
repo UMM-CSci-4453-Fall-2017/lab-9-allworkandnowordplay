@@ -3,7 +3,9 @@
 <head lang="en">
     <meta charset="utf-8">
     <title>Cash Register</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
     <script src="click.js"></script>
@@ -68,9 +70,55 @@
       <button type="submit" class="btn btn-success" ng-click="loginClick()">Submit</button>
     </form>
   </div>
-  <div class="container pull-right">
-    <button type="submit" class="btn btn-success" ng-click="saleClick()">Sale</button>
-    <button type="submit" class="btn btn-danger" ng-click="voidClick()">Void</button>
+  <div class="container pull-right" ng-show="authenticated">
+    <button type="submit" class="btn btn-success btn-lg" data-toggle="modal" data-target="#receiptModal"  >Sale</button>
+    <button type="submit" class="btn btn-danger btn-lg" ng-click="voidClick()">Void</button>
+    <!-- receipt modal -->
+    <div id="receiptModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- body of receipt-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title">Button Store</h2>
+            <h4>123 Blueberry Street</h4>
+            <h4>Morris MN 56267</h4>
+          </div>
+          <div class="modal-body">
+            <h5>CashierID: {{userID}}</h5>
+            <table class="table borderless">
+              <thead>
+                <tr>
+                  <th>QTY</th>
+                  <th>ITEM</th>
+                  <th>PRICE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- loops through all transaction lines and displays them -->
+                <tr id="line_{{line.lineID}}" ng-repeat="line in lines" ng-click="lineClick($event,'line.lineID');">
+                  <td>{{line.quantity}}</td> <!-- displays item quantity -->
+                  <td>{{line.label}}</td> <!-- displays item label -->
+                  <td>${{line.displayPrice}}</td> <!-- displays item price -->
+                </tr>
+              </tbody>
+              <tbody id="tableFooterReceipt" >
+                <tr class="borderless">
+                  <!-- displays total price row of transaction table -->
+                  <td><strong>Total:</strong></td>
+                  <td></td>
+                  <!-- displays total price of transaction -->
+                  <td><strong>$<span ng-bind="totalPrice"></span></strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saleClick()">Confirm</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>

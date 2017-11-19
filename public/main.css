@@ -6,3 +6,10 @@
   margin-right: 100px;
   margin-top: 25px;
 }
+
+.borderless td, .borderless th, .borderless tr {
+    border: none !important;
+}
+#tableFooterReceipt {
+    border: none !important;
+}
