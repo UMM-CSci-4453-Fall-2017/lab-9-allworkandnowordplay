@@ -94,4 +94,19 @@ app.get("/void",function(req,res){
   }})(res));
 });
 
+// voids transaction
+// removes all rows from transaction_table
+app.get("/sale",function(req,res){
+  var userID = req.param('userID');
+  var total = req.param('total');
+
+  var sql = 'INSERT INTO mitc0417.transaction_archive (startTime, stopTime, userID, total) VALUES ((SELECT MIN(startTime) from mitc0417.transaction_table), (SELECT MAX(stopTime) from mitc0417.transaction_table),' + userID + ',' + total + ')';
+  connection.query(sql,(function(res){return function(err,rows,fields){
+     if(err){console.log("We have an error:");
+             console.log(err);}
+
+     res.send(err);
+  }})(res));
+});
+
 app.listen(port);

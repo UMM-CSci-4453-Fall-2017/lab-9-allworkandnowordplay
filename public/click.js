@@ -14,6 +14,9 @@ function RegisterCtrl($scope,registerApi){
   // Void
   $scope.voidClick=voidClick;
 
+  // Sale
+  $scope.saleClick=saleClick;
+
   // Button intialization
    $scope.buttons=[]; //Initially all was still
    $scope.errorMessage='';
@@ -57,6 +60,16 @@ function RegisterCtrl($scope,registerApi){
         .success(function(){
           totalPrice(); // calculates and formats price for UI
           refreshLines(); // gets lines from api and updates $scope.lines
+        })
+        .error(function(){$scope.errorMessage="Unable to click";});
+   };
+
+   // sale functions
+   function saleClick(){
+     $scope.errorMessage='';
+     registerApi.clickSale($scope.userID, $scope.totalPrice)
+        .success(function(){
+          voidClick(); // call void to truncate the table and update items list
         })
         .error(function(){$scope.errorMessage="Unable to click";});
    };
@@ -180,6 +193,10 @@ function registerApi($http,apiUrl){
     },
     clickVoid: function() {
       var url = apiUrl + '/void';
+      return $http.get(url);
+    },
+    clickSale: function(userID, total) {
+      var url = apiUrl + '/sale?userID=' + userID + '&total=' + total;
       return $http.get(url);
     }
  };
