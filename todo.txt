@@ -1,2 +1,1 @@
-- think about trigger
-- ask about deals in till_items table
+**Everything is finished!!
